@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-const NAV_LINKS = ["About", "Contributions", "GSoC", "Skills", "Contact"];
+const NAV_LINKS = ["About", "Contributions", "GSoC", "Skills", "Certificates", "Contact"];
 
 const PR_DATA = [
   { id: "PR #28457", status: "Merged", color: "#00ff9d", title: "Fixed undefined variable 'i' in moveViews.py", desc: "Fixed runtime NameError affecting TechDraw conversion utilities using enumerate()", repo: "FreeCAD/FreeCAD" },
@@ -30,6 +30,154 @@ const GSOC_FEATURES = [
   { icon: "⊞", title: "JSON Exporter", desc: "Structured annotation data output for engineering drawings" },
 ];
 
+const CERT_DATA = [
+  {
+    id: 1, icon: "🐍", color: "#0062ff", accent: "#4d9fff",
+    title: "Python 101 for Data Science",
+    issuer: "IBM · Cognitive Class",
+    date: "May 10, 2026",
+    bg: "linear-gradient(135deg, #00070f 0%, #001233 60%, #0062ff18 100%)",
+    logo: "IBM",
+    logoColor: "#4d9fff",
+  },
+  {
+    id: 2, icon: "☁️", color: "#4285f4", accent: "#a8c7fa",
+    title: "Digital Transformation with Google Cloud",
+    issuer: "Google Cloud · SimpliLearn",
+    date: "May 9, 2026",
+    bg: "linear-gradient(135deg, #020810 0%, #0a1628 60%, #4285f418 100%)",
+    logo: "Google Cloud",
+    logoColor: "#4285f4",
+  },
+  {
+    id: 3, icon: "▶", color: "#34a853", accent: "#81c995",
+    title: "Play Store Listing Certificate",
+    issuer: "Google Play Academy",
+    date: "Apr 25, 2026",
+    valid: "Valid · Apr 25, 2029",
+    bg: "linear-gradient(135deg, #020d05 0%, #0a2010 60%, #34a85318 100%)",
+    logo: "Google Play",
+    logoColor: "#34a853",
+  },
+  {
+    id: 4, icon: "🤖", color: "#cc785c", accent: "#e8a98e",
+    title: "Claude Code 101",
+    issuer: "Anthropic",
+    date: "2026",
+    bg: "linear-gradient(135deg, #0d0804 0%, #1a0e09 60%, #cc785c18 100%)",
+    logo: "ANTHROPIC",
+    logoColor: "#cc785c",
+  },
+  {
+    id: 5, icon: "🛡", color: "#00b4d8", accent: "#90e0ef",
+    title: "Advanced Cybersecurity Awareness",
+    issuer: "IIT Kanpur · #CyberJagritBharat",
+    date: "Dec 13, 2025",
+    bg: "linear-gradient(135deg, #020a0d 0%, #071c22 60%, #00b4d818 100%)",
+    logo: "IIT KANPUR",
+    logoColor: "#00b4d8",
+  },
+  {
+    id: 6, icon: "🗣", color: "#f4a261", accent: "#fcd5ae",
+    title: "Spoken English Course",
+    issuer: "SimpliLearn SkillUp",
+    date: "Dec 4, 2025",
+    bg: "linear-gradient(135deg, #0d0800 0%, #1f1000 60%, #f4a26118 100%)",
+    logo: "simplilearn",
+    logoColor: "#f4a261",
+  },
+  {
+    id: 7, icon: "💻", color: "#9b5de5", accent: "#c77dff",
+    title: "Certificate of Participation — Quiz",
+    issuer: "DigiCoders · VIT Kanpur",
+    date: "Nov 24, 2025",
+    bg: "linear-gradient(135deg, #070210 0%, #130520 60%, #9b5de518 100%)",
+    logo: "DigiCoders",
+    logoColor: "#9b5de5",
+  },
+  {
+    id: 8, icon: "📝", color: "#ff6b35", accent: "#ffb599",
+    title: "Internship Common Aptitude Test",
+    issuer: "ICAT",
+    date: "Nov 13, 2025",
+    bg: "linear-gradient(135deg, #0d0300 0%, #1f0800 60%, #ff6b3518 100%)",
+    logo: "ICAT",
+    logoColor: "#ff6b35",
+  },
+];
+
+function CertCard({ cert }) {
+  return (
+    <div style={{
+      width: "100%", height: "100%",
+      background: cert.bg,
+      borderRadius: 12,
+      padding: "18px 20px",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between",
+      position: "relative",
+      overflow: "hidden",
+    }}>
+      {/* Corner decoration */}
+      <div style={{ position:"absolute", top:0, right:0, width:80, height:80, background:`radial-gradient(circle at top right, ${cert.color}22, transparent 70%)` }} />
+      <div style={{ position:"absolute", bottom:0, left:0, width:60, height:60, background:`radial-gradient(circle at bottom left, ${cert.color}15, transparent 70%)` }} />
+
+      {/* Top border line */}
+      <div style={{ position:"absolute", top:0, left:0, right:0, height:2, background:`linear-gradient(90deg, transparent, ${cert.color}, transparent)` }} />
+
+      {/* Watermark seal */}
+      <div style={{
+        position:"absolute", right:14, bottom:14,
+        width:48, height:48, borderRadius:"50%",
+        border:`2px solid ${cert.color}33`,
+        display:"flex", alignItems:"center", justifyContent:"center",
+        fontSize:"1.3rem", opacity:0.4,
+      }}>✦</div>
+
+      {/* Logo / Issuer */}
+      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start" }}>
+        <span style={{
+          fontFamily:"'Syne',sans-serif", fontWeight:800,
+          fontSize:".72rem", letterSpacing:".1em",
+          color: cert.logoColor, textTransform:"uppercase",
+          background:`${cert.color}18`, padding:"3px 10px",
+          borderRadius:4, border:`1px solid ${cert.color}33`,
+        }}>{cert.logo}</span>
+        <span style={{ fontSize:"1.4rem" }}>{cert.icon}</span>
+      </div>
+
+      {/* Center content */}
+      <div style={{ margin:"14px 0 8px" }}>
+        <p style={{ fontSize:".6rem", letterSpacing:".2em", textTransform:"uppercase", color:cert.accent, opacity:0.7, marginBottom:6 }}>
+          CERTIFICATE OF COMPLETION
+        </p>
+        <p style={{
+          fontFamily:"'Syne',sans-serif", fontWeight:800,
+          fontSize:".88rem", color:"#ffffff", lineHeight:1.35,
+          marginBottom:6,
+        }}>{cert.title}</p>
+        <p style={{ fontSize:".7rem", color: cert.accent, opacity:0.85 }}>
+          Ayushi Shukla
+        </p>
+      </div>
+
+      {/* Bottom */}
+      <div style={{ borderTop:`1px solid ${cert.color}22`, paddingTop:10, display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+        <div>
+          <p style={{ fontSize:".65rem", color:"#ffffff55", letterSpacing:".04em" }}>{cert.issuer}</p>
+          {cert.valid && <p style={{ fontSize:".6rem", color:cert.accent, marginTop:3 }}>{cert.valid}</p>}
+        </div>
+        <span style={{
+          fontSize:".62rem", color:cert.color,
+          background:`${cert.color}15`, border:`1px solid ${cert.color}33`,
+          borderRadius:4, padding:"2px 8px", whiteSpace:"nowrap",
+        }}>{cert.date}</span>
+      </div>
+    </div>
+  );
+}
+
 function useInView(threshold = 0.12) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
@@ -53,6 +201,7 @@ function Reveal({ children, delay = 0 }) {
 export default function App() {
   const [activeNav, setActiveNav] = useState("About");
   const [typed, setTyped] = useState("");
+  const [flipped, setFlipped] = useState(null);
   const fullTitle = "Open Source Contributor · GSSoC '26 · Mechanical Engineer";
 
   useEffect(() => {
@@ -82,7 +231,7 @@ export default function App() {
         *{margin:0;padding:0;box-sizing:border-box}
         ::selection{background:#00ff9d22;color:#00ff9d}
         ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:#020c08}::-webkit-scrollbar-thumb{background:#00ff9d44;border-radius:2px}
-        .nl{cursor:pointer;font-size:.71rem;letter-spacing:.14em;text-transform:uppercase;color:#4d8a68;transition:color .2s;padding-bottom:3px;border-bottom:1px solid transparent}
+        .nl{cursor:pointer;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:#4d8a68;transition:color .2s;padding-bottom:3px;border-bottom:1px solid transparent}
         .nl:hover,.nl.on{color:#00ff9d;border-color:#00ff9d55}
         .card{background:#040f09;border:1px solid #0b2718;border-radius:14px;padding:22px 24px;transition:border-color .3s,transform .3s}
         .card:hover{border-color:#00ff9d33;transform:translateY(-4px)}
@@ -98,6 +247,13 @@ export default function App() {
         .gbg{position:absolute;inset:0;background-image:linear-gradient(#00ff9d07 1px,transparent 1px),linear-gradient(90deg,#00ff9d07 1px,transparent 1px);background-size:64px 64px}
         .sl{font-size:.65rem;letter-spacing:.24em;text-transform:uppercase;color:#00ff9d;margin-bottom:10px}
         .badge{display:inline-flex;align-items:center;gap:5px;padding:2px 10px;border-radius:4px;font-size:.67rem;letter-spacing:.06em;font-weight:500}
+        .flip-card{cursor:pointer;perspective:1000px;height:200px}
+        .flip-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+        .flip-inner.flipped{transform:rotateY(180deg)}
+        .flip-front,.flip-back{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px}
+        .flip-back{transform:rotateY(180deg)}
+        .cert-hover{transition:transform .3s,box-shadow .3s}
+        .cert-hover:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.4)}
       `}</style>
 
       {/* NAV */}
@@ -106,7 +262,7 @@ export default function App() {
           <span style={{ fontFamily:"'Syne',sans-serif",fontWeight:900,fontSize:"1.05rem",letterSpacing:"-.03em" }}>
             <span style={{ color:"#00ff9d" }}>A</span>yushi<span style={{ color:"#00ff9d" }}>.</span>
           </span>
-          <div style={{ display:"flex",gap:26 }}>
+          <div style={{ display:"flex",gap:22,flexWrap:"wrap" }}>
             {NAV_LINKS.map(l => <span key={l} className={`nl${activeNav===l?" on":""}`} onClick={() => go(l)}>{l}</span>)}
           </div>
         </div>
@@ -137,7 +293,7 @@ export default function App() {
           </Reveal>
           <Reveal delay={0.18}>
             <div style={{ display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(130px,1fr))",gap:14,marginTop:60,maxWidth:600 }}>
-              {[["2","PRs Merged"],["1","Draft PR"],["GSSoC '26","Contributor"],["FreeCAD","Core Project"]].map(([v,l]) => (
+              {[["2","PRs Merged"],["8","Certificates"],["GSSoC '26","Contributor"],["FreeCAD","Core Project"]].map(([v,l]) => (
                 <div key={l} className="card" style={{ padding:"18px 20px" }}>
                   <div style={{ fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:"1.55rem",color:"#00ff9d",lineHeight:1 }}>{v}</div>
                   <div style={{ fontSize:".68rem",color:"#4d8a68",marginTop:7,letterSpacing:".06em" }}>{l}</div>
@@ -210,7 +366,7 @@ export default function App() {
                   <p style={{ fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:".88rem",color:"#c4ebd4",marginBottom:8 }}>{f.title}</p>
                   <p style={{ fontSize:".75rem",color:"#4d8a68",lineHeight:1.65 }}>{f.desc}</p>
                 </div>
-              </Reveal>
+          </Reveal>
             ))}
           </div>
         </div>
@@ -251,6 +407,74 @@ export default function App() {
         </div>
       </section>
 
+      {/* CERTIFICATES */}
+      <section id="Certificates" style={{ padding:"100px 5vw", background:"#030e07" }}>
+        <div style={{ maxWidth:1100,margin:"0 auto" }}>
+          <Reveal>
+            <p className="sl">Achievements</p>
+            <h2 style={{ fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:"clamp(1.8rem,4vw,2.8rem)",marginBottom:10 }}>
+              Licenses & Certificates
+            </h2>
+            <p style={{ color:"#4d8a68",fontSize:".83rem",marginBottom:52,maxWidth:480,lineHeight:1.7 }}>
+              8 certifications across Cloud, AI, Cybersecurity, Data Science & more
+            </p>
+          </Reveal>
+
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(260px,1fr))", gap:18 }}>
+            {CERT_DATA.map((cert, i) => (
+              <Reveal key={cert.id} delay={i * 0.07}>
+                <div className="flip-card cert-hover" onClick={() => setFlipped(flipped === cert.id ? null : cert.id)}>
+                  <div className={`flip-inner${flipped === cert.id ? " flipped" : ""}`}>
+
+                    {/* FRONT — designed certificate */}
+                    <div className="flip-front">
+                      <CertCard cert={cert} />
+                    </div>
+
+                    {/* BACK — details */}
+                    <div className="flip-back" style={{
+                      background: cert.bg,
+                      border:`1px solid ${cert.color}44`,
+                      padding:"20px",
+                      display:"flex", flexDirection:"column",
+                      justifyContent:"center", alignItems:"center", gap:12,
+                      textAlign:"center",
+                    }}>
+                      <div style={{ position:"absolute",top:0,left:0,right:0,height:2,background:`linear-gradient(90deg,transparent,${cert.color},transparent)` }} />
+                      <span style={{ fontSize:"2rem" }}>{cert.icon}</span>
+                      <div>
+                        <p style={{ fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:".85rem",color:"#fff",lineHeight:1.4,marginBottom:6 }}>{cert.title}</p>
+                        <p style={{ fontSize:".72rem",color:cert.accent,marginBottom:4 }}>{cert.issuer}</p>
+                        <p style={{ fontSize:".68rem",color:`${cert.color}bb` }}>{cert.date}</p>
+                        {cert.valid && <p style={{ fontSize:".65rem",color:cert.accent,marginTop:4,opacity:.8 }}>{cert.valid}</p>}
+                      </div>
+                      <div style={{
+                        marginTop:6, padding:"5px 14px",
+                        background:`${cert.color}15`, border:`1px solid ${cert.color}44`,
+                        borderRadius:20, fontSize:".64rem", color:cert.color, letterSpacing:".08em",
+                      }}>VERIFIED ✦</div>
+                    </div>
+
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+
+          {/* Stats row */}
+          <Reveal delay={0.25}>
+            <div style={{ display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(140px,1fr))",gap:14,marginTop:48 }}>
+              {[["8","Total Certs"],["3","Google · IBM"],["1","IIT Kanpur"],["1","Anthropic"]].map(([v,l]) => (
+                <div key={l} className="card" style={{ padding:"16px 20px",textAlign:"center" }}>
+                  <div style={{ fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:"1.6rem",color:"#00ff9d" }}>{v}</div>
+                  <div style={{ fontSize:".68rem",color:"#4d8a68",marginTop:6,letterSpacing:".06em" }}>{l}</div>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       {/* CONTACT */}
       <section id="Contact" style={{ padding:"100px 5vw 80px" }}>
         <div style={{ maxWidth:1100,margin:"0 auto" }}>
@@ -274,5 +498,5 @@ export default function App() {
       </footer>
     </div>
   );
-}
-
+                }
+    
